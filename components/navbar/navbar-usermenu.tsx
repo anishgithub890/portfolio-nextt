@@ -1,7 +1,6 @@
 'use client';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { useCallback, useState } from 'react';
 
+import { useCallback, useState } from 'react';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/useLoginModal';
 import { signOut } from 'next-auth/react';
@@ -9,6 +8,8 @@ import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
 import { useRouter } from 'next/navigation';
 import { UserAvatar } from '@/components/user-avatar';
+import MenuItem from './menu-item';
+import { DropdownNavbarMenu } from '@/components/navbar/navbar-menu-item';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -39,9 +40,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         <div
           onClick={toggleOpen}
           className="
-          p-4
-          md:py-1
-          md:px-2
+          p-[0.35rem]
           border-[1px]
           border-neutral-100
           flex
@@ -64,7 +63,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           rounded-xl
           shadow-md
           w-[40vw]
-          md:w-3/4
           bg-white
           overflow-hidden
           right-0
@@ -76,32 +74,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                {/* <MenuItem
-                  onClick={() => router.push('/trips')}
-                  label="My trips"
-                />
-                <MenuItem
-                  onClick={() => router.push('/favorites')}
-                  label="My favourites"
-                />
-                <MenuItem
-                  onClick={() => router.push('/reservations')}
-                  label="My reservation"
-                />
-                <MenuItem
-                  onClick={() => router.push('/properties')}
-                  label="My properties"
-                />
-                <MenuItem onClick={rendModal.onOpen} label="Airbnb my home" />
-                <hr />
-                <MenuItem onClick={() => signOut()} label="Logout" /> */}
+                <DropdownNavbarMenu />
               </>
             ) : (
               <>
-                {/* <MenuItem onClick={loginModal.onOpen} label="Login" />
+                <MenuItem onClick={loginModal.onOpen} label="Login" />
 
-                <MenuItem onClick={registerModal.onOpen} label="Sign up" /> */}
-                <p>Login</p>
+                <MenuItem onClick={registerModal.onOpen} label="Sign up" />
               </>
             )}
           </div>
