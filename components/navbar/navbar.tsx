@@ -82,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               </div>
 
               <div className="flex flex-col">
-                <UserMenu />
+                <UserMenu currentUser={currentUser} />
               </div>
               <ModeToggle />
             </div>
