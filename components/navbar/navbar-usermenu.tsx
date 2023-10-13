@@ -9,7 +9,7 @@ import { SafeUser } from '@/app/types';
 import { useRouter } from 'next/navigation';
 import { UserAvatar } from '@/components/user-avatar';
 import MenuItem from './menu-item';
-import { DropdownNavbarMenu } from '@/components/navbar/navbar-menu-item';
+import { Separator } from '../ui/separator';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -68,14 +68,33 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           bg-white
           overflow-hidden
           right-0
-          top-12
+          top-11
+          border-2
           text-sm
           "
         >
           <div className="flex flex-col cursor-pointer">
-            {currentUser ? (
+            {currentUser?.role == 'user' ? (
               <>
-                <DropdownNavbarMenu />
+                <MenuItem onClick={() => {}} label="Your profile" />
+                <MenuItem onClick={() => {}} label="Change language" />
+                <hr />
+                <MenuItem onClick={() => signOut()} label="Logout" />
+              </>
+            ) : currentUser?.role == 'admin' ? (
+              <>
+                <MenuItem
+                  onClick={() => router.push('/dashboard')}
+                  label="Dashboard"
+                />
+                <MenuItem onClick={() => {}} label="Add Project" />
+                <MenuItem onClick={() => {}} label="Add Skill" />
+                <MenuItem onClick={() => {}} label="Add Experience" />
+                <MenuItem onClick={() => {}} label="Add Testimonial" />
+                <MenuItem onClick={() => {}} label="Your profile" />
+                <MenuItem onClick={() => {}} label="Change language" />
+                <Separator />
+                <MenuItem onClick={() => signOut()} label="Logout" />
               </>
             ) : (
               <>
