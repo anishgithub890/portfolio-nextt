@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 import { SafeUser } from '@/app/types';
 
@@ -20,7 +20,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [showBackground, setShowBackground] = useState(false);
 
   useEffect(() => {

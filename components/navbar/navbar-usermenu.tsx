@@ -69,7 +69,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           overflow-hidden
           right-0
           top-11
-          border-2
           text-sm
           "
         >
