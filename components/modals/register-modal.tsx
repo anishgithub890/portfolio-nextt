@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
-import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
+import { signIn } from 'next-auth/react';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -11,10 +11,11 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
 
-import Modal from './modals-modal';
-import Heading from '../heading';
-import Input from '../inputs/input';
-import Button from '../button';
+import Modal from '@/components/modals/modals-modal';
+import Heading from '@/components/heading';
+import Input from '@/components/inputs/input';
+import Button from '@/components//button';
+import { Separator } from '@/components/ui/separator';
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -89,7 +90,7 @@ const RegisterModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
+      <Separator />
       <Button
         outline
         label="Continue with Google"
@@ -110,7 +111,7 @@ const RegisterModal = () => {
           font-light
         "
       >
-        <p>
+        <p className="dark:text-white">
           Already have an account?
           <span
             onClick={onToggle}
@@ -118,6 +119,7 @@ const RegisterModal = () => {
               text-neutral-800
               cursor-pointer 
               hover:underline
+              dark:text-white
             "
           >
             Log in

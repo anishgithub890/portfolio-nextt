@@ -11,10 +11,11 @@ import { useRouter } from 'next/navigation';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/useLoginModal';
 
-import Modal from './modals-modal';
-import Heading from '../heading';
-import Input from '../inputs/input';
-import Button from '../button';
+import Modal from '@/components/modals/modals-modal';
+import Heading from '@/components/heading';
+import Input from '@/components/inputs/input';
+import Button from '@/components//button';
+import { Separator } from '@/components/ui/separator';
 
 const LoginModal = () => {
   const router = useRouter();
@@ -84,7 +85,7 @@ const LoginModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
+      <Separator />
       <Button
         outline
         label="Continue with Google"
@@ -101,7 +102,7 @@ const LoginModal = () => {
         className="
       text-neutral-500 text-center mt-4 font-light"
       >
-        <p>
+        <p className="dark:text-white">
           First time using portfolio?
           <span
             onClick={onToggle}
@@ -109,6 +110,7 @@ const LoginModal = () => {
               text-neutral-800
               cursor-pointer 
               hover:underline
+              dark:text-white
             "
           >
             {' '}

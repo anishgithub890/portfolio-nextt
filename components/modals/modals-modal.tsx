@@ -123,6 +123,7 @@ const Modal: React.FC<ModalProps> = ({
               bg-white 
               outline-none 
               focus:outline-none
+              dark:bg-zinc-900
             "
             >
               {/*header*/}
@@ -148,7 +149,7 @@ const Modal: React.FC<ModalProps> = ({
                   "
                   onClick={handleClose}
                 >
-                  <IoMdClose size={18} />
+                  <IoMdClose size={18} className="dark:text-white" />
                 </button>
                 <div className="text-lg font-semibold">{title}</div>
               </div>
