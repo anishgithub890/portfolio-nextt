@@ -42,6 +42,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           className="
           p-[0.35rem]
           border-[1px]
+          dark:border-zinc-600
           border-neutral-100
           flex
           flex-row
@@ -63,12 +64,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           rounded-xl
           shadow-md
           w-[40vw]
+          md:w-[20vw]
           bg-white
           overflow-hidden
           right-0
           top-12
           text-sm
-
           "
         >
           <div className="flex flex-col cursor-pointer">
@@ -78,7 +79,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               </>
             ) : (
               <>
-                <MenuItem onClick={loginModal.onOpen} label="Login" />
+                <MenuItem
+                  onClick={loginModal.onOpen}
+                  label="Login Login Login"
+                />
 
                 <MenuItem onClick={registerModal.onOpen} label="Sign up" />
               </>

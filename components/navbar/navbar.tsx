@@ -81,8 +81,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                 <Separator orientation="vertical" />
               </div>
 
-              {/* TODO: Usermenu */}
-              <UserMenu />
+              <div className="flex flex-col">
+                <UserMenu />
+              </div>
               <ModeToggle />
             </div>
           </div>
