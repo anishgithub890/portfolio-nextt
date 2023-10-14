@@ -1,5 +1,6 @@
 'use client';
 
+import * as z from 'zod';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
@@ -15,8 +16,19 @@ import Heading from '@/components/heading';
 import Input from '@/components/inputs/input';
 import Button from '@/components//button';
 import { Separator } from '@/components/ui/separator';
+import { useModal } from '@/hooks/use-modal-store';
+
+const formSchema = z.object({
+  email: z.string().min(1, {
+    message: 'Email is required.',
+  }),
+  password: z.string().min(1, {
+    message: 'Password is required.',
+  }),
+});
 
 const LoginModal = () => {
+  const { isOpen, onClose, type } = useModal();
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
