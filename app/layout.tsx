@@ -11,6 +11,7 @@ import LoginModal from '@/components/modals/login-modal';
 import RegisterModal from '@/components/modals/register-modal';
 import getCurrentUser from './actions/getCurrentUser';
 import './globals.css';
+import { ModalProvider } from '@/components/providers/modal-provider';
 
 const inter = Open_Sans({ subsets: ['latin'] });
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <ClientOnly>
+              <ModalProvider />
               <ToasterProvider />
               <LoginModal />
               <RegisterModal />

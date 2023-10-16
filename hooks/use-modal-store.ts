@@ -3,8 +3,8 @@ import { create } from 'zustand';
 
 export type ModalType =
   | 'createUser'
+  | 'login'
   | 'editUser'
-  | 'createChannel'
   | 'deleteUser'
   | 'messageFile'
   | 'deleteMessage';

@@ -11,7 +11,8 @@ import { ModeToggle } from '@/components/mode-toggle';
 import NavbarMenuItem from '@/components/navbar/navbar-menuitem';
 import { MobileSidebar } from '@/components/navbar/navbar-mobilesidebar';
 import { Separator } from '../ui/separator';
-import UserMenu from './navbar-usermenu';
+// import UserMenu from './navbar-usermenu';
+import { ServerHeader } from '../server/server-header';
 
 const TOP_OFFSET = 66;
 
@@ -82,7 +83,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               </div>
 
               <div className="flex flex-col">
-                <UserMenu currentUser={currentUser} />
+                {/* <UserMenu currentUser={currentUser} /> */}
+                <ServerHeader currentUser={currentUser} />
               </div>
               <ModeToggle />
             </div>
