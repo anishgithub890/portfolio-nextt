@@ -31,7 +31,28 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({ currentUser }) => {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {currentUser?.role == 'user' ? (
           <>
-            <button>User</button>
+            <DropdownMenuItem
+              onClick={() => onOpen('login')}
+              className="px-3 py-2 text-sm cursor-pointer"
+            >
+              User
+              <LogIn className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onOpen('createUser')}
+              className="px-3 py-2 text-sm cursor-pointer"
+            >
+              Sign Up
+              <PlusCircle className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+            <Separator />
+            <DropdownMenuItem
+              onClick={() => signOut()}
+              className="px-3 py-2 text-sm cursor-pointer"
+            >
+              Logout
+              <LogOut className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
           </>
         ) : currentUser?.role == 'admin' ? (
           <>

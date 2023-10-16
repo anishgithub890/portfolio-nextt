@@ -3,6 +3,8 @@
 import qs from 'query-string';
 import axios from 'axios';
 import * as z from 'zod';
+import { FcGoogle } from 'react-icons/fc';
+import { signIn } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -23,12 +25,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { useParams, useRouter } from 'next/navigation';
-import { useModal } from '@/hooks/use-modal-store';
 import toast from 'react-hot-toast';
 import { Separator } from '../ui/separator';
-import Heading from '../heading';
+import CustomeButton from '../custome-button';
+import { useModal } from '@/hooks/use-modal-store';
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -46,6 +47,8 @@ export const CreateRegisterModal = () => {
   const { isOpen, onClose, type } = useModal();
   const router = useRouter();
   const params = useParams();
+
+  const { onOpen } = useModal();
 
   const isModalOpen = isOpen && type === 'createUser';
 
@@ -71,6 +74,7 @@ export const CreateRegisterModal = () => {
       form.reset();
       router.refresh();
       onClose();
+      onOpen('login');
     } catch (error) {
       console.log(error);
     }
@@ -156,12 +160,39 @@ export const CreateRegisterModal = () => {
                   </FormItem>
                 )}
               />
+              <DialogFooter>
+                <CustomeButton label="Continue" disabled={isLoading} />
+              </DialogFooter>
+              <Separator />
+              <div className="flex flex-col gap-4 mt-3">
+                <CustomeButton
+                  outline
+                  label="Continue with Google"
+                  icon={FcGoogle}
+                  onClick={() => signIn('google')}
+                />
+                <div
+                  className="
+                   text-neutral-500 text-center mt-4 font-light pb-6"
+                >
+                  <p className="dark:text-zinc-900">
+                    Already have an account?
+                    <span
+                      onClick={() => onOpen('login')}
+                      className="
+                      text-zinc-900
+                      cursor-pointer
+                      hover:underline
+                      dark:text-zinc-900
+                    "
+                    >
+                      {' '}
+                      Login
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
-            <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="primary" disabled={isLoading}>
-                Continue
-              </Button>
-            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
