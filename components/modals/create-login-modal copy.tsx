@@ -1,9 +1,15 @@
 'use client';
 
-import qs from 'query-string';
-import axios from 'axios';
 import * as z from 'zod';
+import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+
+import { useModal } from '@/hooks/use-modal-store';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams, useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -22,16 +28,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useParams, useRouter } from 'next/navigation';
-import { useModal } from '@/hooks/use-modal-store';
 import { Separator } from '../ui/separator';
-import { useCallback, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { signIn } from 'next-auth/react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { GoalIcon } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
+import CustomeButton from '@/components/custome-button';
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -46,7 +44,9 @@ export const CreateLoginModal = () => {
   const { isOpen, onClose, type } = useModal();
   const router = useRouter();
   const params = useParams();
-  const [loadingg, setIsLoading] = useState(false);
+  const [issloadingg, setIsLoading] = useState(false);
+
+  const { onOpen } = useModal();
 
   const isModalOpen = isOpen && type === 'login';
 
@@ -59,22 +59,6 @@ export const CreateLoginModal = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
-
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   try {
-  //     const url = qs.stringifyUrl({
-  //       url: '/api/register',
-  //     });
-  //     await axios.post(url, values);
-
-  //     toast.success('Registered!');
-  //     form.reset();
-  //     router.refresh();
-  //     onClose();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -157,28 +141,39 @@ export const CreateLoginModal = () => {
                   </FormItem>
                 )}
               />
-
+              <DialogFooter>
+                <CustomeButton label="Continue" disabled={isLoading} />
+              </DialogFooter>
               <Separator />
-
               <div className="flex flex-col gap-4 mt-3">
-                <Button
-                  variant="outline"
-                  disabled={isLoading}
+                <CustomeButton
+                  outline
+                  label="Continue with Google"
+                  icon={FcGoogle}
                   onClick={() => signIn('google')}
+                />
+                <div
+                  className="
+                   text-neutral-500 text-center mt-4 font-light pb-6"
                 >
-                  <div className="flex flex-col gap-4 mt-3">
-                    Continue with Google
-                  </div>
-                  <FcGoogle />
-                </Button>
+                  <p className="dark:text-zinc-900">
+                    First time using portfolio?
+                    <span
+                      onClick={() => onOpen('createUser')}
+                      className="
+                      text-zinc-900
+                      cursor-pointer
+                      hover:underline
+                      dark:text-zinc-900
+                    "
+                    >
+                      {' '}
+                      Create an account
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
-
-            <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="primary" disabled={isLoading}>
-                Continue
-              </Button>
-            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
