@@ -3,9 +3,12 @@ import { create } from 'zustand';
 
 export type ModalType =
   | 'createUser'
+  | 'createSkill'
   | 'login'
   | 'editUser'
+  | 'editSkill'
   | 'deleteUser'
+  | 'deleteSkill'
   | 'messageFile'
   | 'deleteMessage';
 
