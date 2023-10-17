@@ -54,7 +54,7 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({
               transition
             "
           >
-            <UserAvatar src={currentUser?.image} />
+            <UserAvatar src={currentUser?.imageUrl} />
           </div>
         </button>
       </DropdownMenuTrigger>
@@ -96,7 +96,7 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => {}}
+              onClick={() => onOpen('createSkill')}
             >
               <GiSkills className="mr-2 h-4 w-4" />
               <span>Create Skill</span>
