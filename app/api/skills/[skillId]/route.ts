@@ -1,58 +1,77 @@
 import { NextResponse } from 'next/server';
 import getCurrentUser from '@/app/actions/getCurrentUser';
-import prisma from '@/lib/prismadb';
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { skillId: string } }
-) {
-  try {
-    const profile = await getCurrentUser();
-
-    if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 });
-    }
-
-    const skill = await prisma.skill.delete({
-      where: {
-        id: params.skillId,
-        userId: profile.id,
-      },
-    });
-
-    return NextResponse.json(skill);
-  } catch (error) {
-    console.log('[SKILL_ID_DELETE]', error);
-    return new NextResponse('Internal Error', { status: 500 });
-  }
-}
+import prismadb from '@/lib/prismadb';
 
 export async function PATCH(
   req: Request,
   { params }: { params: { skillId: string } }
 ) {
   try {
-    const profile = await getCurrentUser();
-    const { name, imageUrl } = await req.json();
+    const currentUser = await getCurrentUser();
+    const body = await req.json();
 
-    if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 });
+    const { label, imageUrl } = body;
+
+    if (!currentUser) {
+      return new NextResponse('Unauthenticated', { status: 403 });
     }
 
-    const skill = await prisma.skill.update({
+    if (!label) {
+      return new NextResponse('Label is required', { status: 400 });
+    }
+
+    if (!imageUrl) {
+      return new NextResponse('Image is required', { status: 400 });
+    }
+
+    if (!params.skillId) {
+      return new NextResponse('Store id is required', { status: 400 });
+    }
+
+    const skill = await prismadb.skill.updateMany({
       where: {
         id: params.skillId,
-        userId: profile.id,
+        userId: currentUser.id,
       },
       data: {
-        name,
+        label,
         imageUrl,
       },
     });
 
     return NextResponse.json(skill);
   } catch (error) {
-    console.log('[SKILL_ID_PATCH]', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    console.log('[SKILL_PATCH]', error);
+    return new NextResponse('Internal error', { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new NextResponse('Unauthenticated', { status: 403 });
+    }
+
+    if (!params.storeId) {
+      return new NextResponse('Store id is required', { status: 400 });
+    }
+
+    const skill = await prismadb.skill.deleteMany({
+      where: {
+        id: params.storeId,
+        userId: currentUser.id,
+      },
+    });
+
+    return NextResponse.json(skill);
+  } catch (error) {
+    console.log('[SKILL_DELETE]', error);
+    return new NextResponse('Internal error', { status: 500 });
   }
 }

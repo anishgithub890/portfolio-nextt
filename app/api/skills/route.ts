@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server';
-import getCurrentUser from '@/app/actions/getCurrentUser';
-import prisma from '@/lib/prismadb';
 
-export async function POST(req: Request) {
+import prisma from '@/lib/prismadb';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const { name, imageUrl } = body;
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return NextResponse.error();
+    }
+
+    const body = await request.json();
+    const { label, imageUrl } = body;
 
     Object.keys(body).forEach((value: any) => {
       if (!body[value]) {
@@ -13,23 +20,17 @@ export async function POST(req: Request) {
       }
     });
 
-    const profile = await getCurrentUser();
-
-    if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 });
-    }
-
     const skill = await prisma.skill.create({
       data: {
-        name,
+        label,
         imageUrl,
-        userId: profile.id,
+        userId: currentUser.id,
       },
     });
 
     return NextResponse.json(skill);
   } catch (error) {
     console.log('[SKILL_POST]', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse('Internal error', { status: 500 });
   }
 }

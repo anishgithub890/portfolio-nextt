@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// relationMode = "prisma"
 
 generator client {
   provider = "prisma-client-js"
@@ -13,18 +14,18 @@ datasource db {
 
 model User {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  email           String   @unique
+  name            String?
+  email           String?   @unique
   emailVerified   DateTime?
   imageUrl        String?
   hashedPassword  String?
   role            String?  @default("user") // user, admin
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  favoriteIds     String[] @db.ObjectId
 
-  accounts       Account[]
-  stores         Store[]
-  billboards         Billboard[]
+  accounts Account[]
+  skills   Skill[]
 }
 
 model Account {
@@ -34,7 +35,7 @@ model Account {
   provider           String
   providerAccountId  String
   refresh_token      String?  @db.String
-  access_token       String?  @db.String    
+  access_token       String?  @db.String
   expires_at         Int?
   token_type         String?
   scope              String?
@@ -46,29 +47,12 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-
-model Store {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  userId          String  @db.ObjectId
-  billboards      Billboard[] @relation("StoreToBillboard")
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+model Skill {
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  label              String
+  imageUrl           String
+  createdAt          DateTime @default(now())
+  userId             String @db.ObjectId
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Billboard {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  storeId     String  @db.ObjectId
-  store       Store @relation("StoreToBillboard", fields: [storeId], references: [id])
-  label       String
-  imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  userId      String @db.ObjectId
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([storeId])
 }
