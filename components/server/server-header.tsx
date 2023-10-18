@@ -16,6 +16,7 @@ import { signOut } from 'next-auth/react';
 import { GiSkills } from 'react-icons/gi';
 import { AiOutlineProfile } from 'react-icons/ai';
 import { User } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 
 interface ServerHeaderProps {
   currentUser?: SafeUser | null;
@@ -27,6 +28,8 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({
   user,
 }) => {
   const { onOpen } = useModal();
+
+  const router = useRouter();
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();
@@ -96,7 +99,7 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => onOpen('createSkill')}
+              onClick={() => router.push('/adminskills')}
             >
               <GiSkills className="mr-2 h-4 w-4" />
               <span>Create Skill</span>
